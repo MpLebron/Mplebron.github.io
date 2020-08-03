@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="机器学习特征处理———独热向量编码, MPLebron">
+    <meta name="keywords" content="墨尔本十年最低气温时间序列数据挖掘（二）, MPLebron">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>机器学习特征处理———独热向量编码 | MPLebron</title>
+    <title>墨尔本十年最低气温时间序列数据挖掘（二） | MPLebron</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">机器学习特征处理———独热向量编码</h1>
+                    <h1 class="description center-align post-title">墨尔本十年最低气温时间序列数据挖掘（二）</h1>
                 </div>
             </div>
         </div>
@@ -408,8 +408,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%8B%AC%E7%83%AD%E5%90%91%E9%87%8F/">
-                                <span class="chip bg-color">独热向量</span>
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">
+                                <span class="chip bg-color">数据挖掘</span>
                             </a>
                         
                     </div>
@@ -420,8 +420,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" class="post-category">
-                                数据挖掘
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="post-category">
+                                数据分析
                             </a>
                         
                     </div>
@@ -433,7 +433,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-02
+                    2020-08-03
                 </div>
                 
 
@@ -442,14 +442,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    940
+                    3.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    15 分
                 </div>
                 
 
@@ -464,39 +464,415 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>在机器学习算法中，常会遇到分类特征是离散的，无序的。例如：性别有男、女，城市有北京，上海，深圳等。</p>
+                <h2 id="时间数据的特征工程"><a href="#时间数据的特征工程" class="headerlink" title="时间数据的特征工程"></a>时间数据的特征工程</h2><p>将单纯的日期纬度扩展成更多维度，构造更多输入给模型的特征，增强数据的可解释性，更接近人的业务逻辑。</p>
+<ul>
+<li>哪一年</li>
+<li>哪一个月</li>
+<li>星期几</li>
+<li>这个月的第几天</li>
+<li>月初还是月末</li>
+<li>一年当中的第几天</li>
+<li>一年当中的第几个月</li>
+</ul>
+<pre><code class="python">#重新调用pandas的read_csv函数读取数据集文件
+df2 = pd.read_csv(&#39;daily-minimum-temperature.csv&#39;)
+df2.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200802215059603.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">df2[&#39;Date&#39;] = pd.to_datetime(df2[&#39;Date&#39;])
+
+#构造新的一列：年
+df2.loc[:,&#39;year&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.year)
+#构造新的一列：月
+df2.loc[:,&#39;month&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.month)
+#构造新的一列：星期几
+df2.loc[:,&#39;dow&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.dayofweek)
+#构造新的一列：一个月第几天
+df2.loc[:,&#39;dom&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.day)
+#构造新的一列，是不是周末，周六，周日
+df2.loc[:,&#39;weekend&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.dayofweek&gt;4)
+df2.loc[:,&#39;weekend_sat&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.dayofweek&gt;5)
+df2.loc[:,&#39;weekend_sun&#39;] = df2[&#39;Date&#39;].apply(lambda x:x.dayofweek&gt;6)
+
+#预览前五行
+df2.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200802215120555.png" alt="在这里插入图片描述"></p>
+<pre><code class="python">#添加上半月和下半月的信息
+def half_month(day):
+    if day in range(1,16):
+        return 1
+    else:
+        return 2
+df2.loc[:,&#39;half_month&#39;] = df2[&#39;dom&#39;].apply(lambda x:half_month(x))
+
+#添加每个月上中下旬的信息
+def three_part_month(day):
+    if day in range(1,11):
+        return 1
+    if day in range (11,21):
+        return 2
+    else:
+        return 3
+df2.loc[:,&#39;three_part_month&#39;] = df2[&#39;dom&#39;].apply(lambda x:three_part_month(x))
+
+#添加每个月四个星期的信息
+def four_week_month(day):
+    if day in range(1,8):
+        return 1
+    if day in range(8,15):
+        return 2
+    if day in range(15,22):
+        return 3
+    else:
+        return 4
+df2.loc[:,&#39;four_week_month&#39;] = df2[&#39;dom&#39;].apply(lambda x:four_week_month(x))
+
+df2.head(35)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200802215159937.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<pre><code class="python">#添加节假日信息
+df2.loc[:,&#39;festival&#39;] = 0
+df2.loc[(df2.month==1)&amp;(df2.dom&lt;4),&#39;festival&#39;]=1
+df2.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200802215213104.png" alt="在这里插入图片描述"></p>
+<h2 id="独热向量编码"><a href="#独热向量编码" class="headerlink" title="独热向量编码"></a>独热向量编码</h2><p>读热向量编码用来将定类数据表示为0-1的二进制，便于输入模型中。<br>比如，计算机并不认识颜色这一列的“红”、“黄”、“绿”三个分类，所以我们用“是不是红色”、“是不是黄色”、“是不是绿色”三列来分开表示“颜色”这一列特征。<br><img src="https://img-blog.csdnimg.cn/20200803052808496.png" alt=""></p>
+<h2 id="保存一份独热向量编码操作之前的数据集"><a href="#保存一份独热向量编码操作之前的数据集" class="headerlink" title="保存一份独热向量编码操作之前的数据集"></a>保存一份独热向量编码操作之前的数据集</h2><pre><code class="python">#保存一份独热向量编码操作之前的数据集
+before_dummy_df = df2.copy()
+before_dummy_df.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803052853116.png" alt=""></p>
+<pre><code class="python">#构造数据集的特征
+drop_columns = [&#39;Date&#39;,&#39;Temp&#39;]
+X_before_dummy = before_dummy_df.drop(drop_columns,axis=1)
+X_before_dummy.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803052906597.png" alt=""></p>
+<h2 id="进行独热向量编码"><a href="#进行独热向量编码" class="headerlink" title="进行独热向量编码"></a>进行独热向量编码</h2><pre><code class="python">#设置要进行独热向量编码的列
+columns_to_encoding = [&#39;year&#39;,&#39;month&#39;,&#39;dow&#39;,&#39;dom&#39;,&#39;three_part_month&#39;,&#39;four_week_month&#39;]
+
+#s使用pandas的get_dummies函数对df2的指定列进行独热向量编码操作
+dummy_df = pd.get_dummies(df2,columns=columns_to_encoding)
+dummy_df.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803052942806.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python">dummy_df.columns</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803052959570.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python">#构造数据集的标签
+Y=dummy_df[&#39;Temp&#39;]
+
+#构造训练数据集的特征
+drop_columns = [&#39;Date&#39;,&#39;Temp&#39;]
+X_dummy = dummy_df.drop(drop_columns,axis=1)</code></pre>
+<h2 id="整理训练集和测试集"><a href="#整理训练集和测试集" class="headerlink" title="整理训练集和测试集"></a>整理训练集和测试集</h2><p>到现在，有了两组数据，分别是：</p>
+<ul>
+<li>没有经过热向量编码操作的数据X_before_dummy</li>
+<li>经过热向量编码操作的数据X_dummy</li>
+</ul>
+<p>他们共用标签Y</p>
+<h3 id="未经独热向量编码的数据"><a href="#未经独热向量编码的数据" class="headerlink" title="未经独热向量编码的数据"></a>未经独热向量编码的数据</h3><pre><code class="python">X_before_dummy.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803053108810.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python">Y.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803053121543.png" alt=""></p>
+<h3 id="经过独热向量编码的数据"><a href="#经过独热向量编码的数据" class="headerlink" title="经过独热向量编码的数据"></a>经过独热向量编码的数据</h3><pre><code class="python">X_dummy.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803053147810.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python">Y.head()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803053203627.png" alt=""></p>
 <blockquote>
-<p>性别特征：<br>[“男”，”女”] =&gt; 0，1<br>地区特征：<br>[“北京”，”上海，”深圳”] =&gt; 0，1，2<br>工作特征：<br>[“演员”，”厨师”，”公务员”，”工程师”，”律师”] =&gt; 0，1，2，3，4</p>
+<p>热向量编码不对标签进行，所以两组数据的标签都是Y</p>
 </blockquote>
-<p>性别特征：<br>[“男”，”女”] =&gt; 0，1<br>地区特征：<br>[“北京”，”上海，”深圳”] =&gt; 0，1，2<br>工作特征：<br>[“演员”，”厨师”，”公务员”，”工程师”，”律师”] =&gt; 0，1，2，3，4</p>
-<h1 id="什么是独热编码"><a href="#什么是独热编码" class="headerlink" title="什么是独热编码"></a>什么是独热编码</h1><p>独热编码（One-Hot Encoding），又称一位有效编码，其方法是使用N位状态寄存器来对N个状态进行编码，每个状态都有它独立的寄存器位，并且在任意时候，其中只有一位有效。即，只有一位是1，其余都是零值。</p>
+<h2 id="机器学习模型回归拟合"><a href="#机器学习模型回归拟合" class="headerlink" title="机器学习模型回归拟合"></a>机器学习模型回归拟合</h2><p>准备好了数据集，就可以进行回归拟合了，接下来使用几个常见的解决回归问题的机器学习模型：</p>
+<ul>
+<li>多元线性回归</li>
+<li>多项式回归</li>
+<li>岭回归</li>
+<li>决策树和随机森林</li>
+<li>支持向量机</li>
+<li>多层感知器（多层神经网络）</li>
+</ul>
+<p>回归模型的评估指标：</p>
+<ul>
+<li>均方误差<br><img src="https://img-blog.csdnimg.cn/20200803053833867.png" alt=""></li>
+<li>均方根误差<br><img src="https://img-blog.csdnimg.cn/20200803053851577.png" alt=""></li>
+<li>平均绝对误差<br><img src="https://img-blog.csdnimg.cn/2020080305390796.png" alt=""></li>
+<li>R Square<br><img src="https://img-blog.csdnimg.cn/20200803053924978.png" alt=""><h3 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h3>单变量线性回归，只有一个自变量X，回归拟合结果是一条直线。<br><img src="https://img-blog.csdnimg.cn/20200803054134574.png" alt=""><br>多元线性回归有多个自变量，每个自变量都有自己对应的斜率。对于类别类型的自变量，比如是否是周末，需要进行独热向量编码处理。<br><img src="https://img-blog.csdnimg.cn/20200803054410311.png" alt=""><br>多元线性回归的回归拟合结果是多维空间的超平面。<blockquote>
+<p>对于墨尔本气温数据集，是典型的多元线性回归，有72个自变量，其中包含很多独热向量编码处理后的分类变量，比如是都是周末，是否是周六，是否是月初等。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code class="python">from sklearn.model_selection import train_test_split
+
+#shuffle是将袋中元素随机排序
+x_train, x_test, y_train, y_test = train_test_split(X_dummy, Y, test_size=0.2, random_state=1, shuffle=True)
+
+from sklearn import linear_model
+lr_reg = linear_model.LinearRegression()
+lr_reg.fit(x_train,y_train)
+print(&#39;截距&#39;,lr_reg.intercept_)
+print(&#39;斜率（线性模型中各特征对应的系数）&#39;,lr_reg.coef_)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803071921289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python">#绘制气温散点图
+df[&#39;Temp&#39;].plot(style=&#39;k.&#39;,figsize=(20,10))
+df.loc[:,&#39;线性回归&#39;] = lr_reg.predict(X_dummy)
+plt.plot(df[&#39;线性回归&#39;],&#39;r.&#39;)
+
+#设置坐标文字大小
+plt.tick_params(labelsize=20)
+
+#生成刻度线网格
+plt.grid()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803071941570.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
 <blockquote>
-<p>例如，对六个状态进行编码：<br>自然顺序码为 000,001,010,011,100,101<br>独热编码则是 000001,000010,000100,001000,010000,100000</p>
+<p>从图中可以看出，拟合出的结果是一簇一簇的点，且每年的同一段时间都是空的或者是密集的，说明模型明显欠拟合了，究其原因，是因为我们输入的72个特征中包含了太多的独热向量编码，其中一些特征的系数较大，就会在每一年同一段时间，也就是某些特征相同的时候取得相同的值，因此就会产生一簇一簇的点。</p>
 </blockquote>
-<p>回到一开始的例子，性别特征：[“男”,”女”]，按照N位状态寄存器来对N个状态进行编码的原理：</p>
+<h3 id="二次多项式回归"><a href="#二次多项式回归" class="headerlink" title="二次多项式回归"></a>二次多项式回归</h3><pre><code class="python">from sklearn.preprocessing import PolynomialFeatures
+
+#构建一个特征处理其poly_reg，将输入的特征变成二次的
+poly_reg = PolynomialFeatures(degree=2)
+
+#使用构建的二次多项式特征处理器处理训练数据X_dummy，得到包含二次特征的训练集X_poly
+X_poly = poly_reg.fit_transform(X_dummy)</code></pre>
+<pre><code class="python">X_dummy.shape</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2020080311221598.png" alt=""></p>
+<pre><code class="python">X_poly.shape</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803112238594.png" alt=""></p>
 <blockquote>
-<p>性别特征：[“男”，”女”]（这里N=2）<br>男 =&gt; 10<br>女 =&gt; 01</p>
+<p>poly_reg将原来72个维度的X_dummy拓展到2701个维度的X_poly<br>72个特征里两两组合的组合数C27 + 72个特征每个特征的一次项 + 72个特征每个特征的二次项 + 截距b<br>2701 = C27+72+72 + 1<br>构建二次多项式回归模型，将上面构造好的X_poly送进去训练。</p>
 </blockquote>
+<pre><code class="python">from sklearn import linear_model
+
+#使用的仍然是线性回归模型，只不过是使用二次特征进行训练 
+lin_reg_2 = linear_model.LinearRegression()
+lin_reg_2.fit(X_poly,Y)
+
+#查看回归方程系数
+print(&quot;每个维度对应的系数（截距）：Cofficients&quot;,lin_reg_2.coef_)
+print(&#39;截距：intercept&#39;,lin_reg_2.intercept_)
+df.loc[:,&#39;二次多项式回归&#39;] = lin_reg_2.predict(X_poly)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803112303615.png" alt=""></p>
+<pre><code class="python">lin_reg_2.coef_.shape</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803112314994.png" alt=""></p>
+<pre><code class="python"># 绘制二次多项式回归模型拟合的气温
+df.loc[:,&#39;二次多项式回归&#39;] = lin_reg_2.predict(X_poly)
+plt.plot(df[&#39;二次多项式回归&#39;], &#39;g*&#39;)
+
+# 绘制气温散点图
+df[&#39;Temp&#39;].plot(style=&#39;k.&#39;, figsize=(20,13))
+
+# 设置图例文字大小和图示大小
+plt.legend(fontsize=25,markerscale=5)
+# 设置坐标文字大小
+plt.tick_params(labelsize=25)
+# 生成刻度线网格
+plt.grid()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803112343942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<h3 id="三次多项式回归"><a href="#三次多项式回归" class="headerlink" title="三次多项式回归"></a>三次多项式回归</h3><pre><code class="python">#构建一个特征处理其poly_reg3，它能将输入特征变成三次的
+poly_reg3 = PolynomialFeatures(degree=3)
+
+#使用构建的三次多项式特征处理器poly_reg3处理新联数据X_dummy,得到包含三次特征的训练集X_poly3
+X_poly3 = poly_reg3.fit_transform(X_dummy)
+
+#构建三次多项式回归模型并训练
+lin_reg3 = linear_model.LinearRegression()
+lin_reg3.fit(X_poly3,Y)
+df.loc[:,&#39;三次多项式回归&#39;] = lin_reg3.predict(X_poly3)</code></pre>
 <blockquote>
-<p>地区特征：[“北京”，”上海，”深圳”]（这里N=3）：<br>北京 =&gt; 100<br>上海 =&gt; 010<br>深圳 =&gt; 001</p>
+<p>构建三次特征比较花费时间，代码需要运行较长时间</p>
 </blockquote>
+<pre><code class="python">X_poly3.shape</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803112420202.png" alt=""></p>
+<pre><code class="python">#绘制二次多项式回归模型拟合的气温，用绿色五角星表示
+plt.plot(df[&#39;二次多项式回归&#39;],&#39;g*&#39;)
+
+
+#绘制三次多项式回归模型拟合的气温，用红色三角星表示
+plt.plot(df[&#39;三次多项式回归&#39;],&#39;r^&#39;)
+
+#绘制气温散点图，用黑色点表示
+df[&#39;Temp&#39;].plot(style=&#39;k.&#39;,figsize=(20,13))
+
+#设置图例文字大小和图示大小
+plt.legend(fontsize=15,markerscale=3)
+#设置坐标文字大小
+plt.tick_params(labelsize=25)
+#生成刻度线网格
+plt.grid()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803112442188.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
 <blockquote>
-<p>工作特征：[“演员”，”厨师”，”公务员”，”工程师”，”律师”]（这里N=5）：<br>演员 =&gt; 10000<br>厨师 =&gt; 01000<br>公务员 =&gt; 00100<br>工程师 =&gt; 00010<br>律师 =&gt; 00001</p>
+<p>三次多项式拟合的点与原始数据完全重合，出现了过拟合。<br>在机器学习中，我们希望模型能大而化之的学习到数据的普遍一般规律，而不是对每一个点死记硬背。<br>因此，在线性回归中，二次多项式回归是效果最好的。</p>
 </blockquote>
-<p>所以，样本的特征是[“女”,”北京”,”工程师”]的时候，独热编码（One-Hot Encoding）的结果为：</p>
+<h2 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h2><p>之前使用多项式回归，如果多项式高次项的系数比较大，模型就容易出现过拟合，正则化是一种常见的防止过拟合的方法，一般原理是在代价函数后面加上一个对系数的约束项，这个约束项就叫做正则化项（regularizer）。在线性回归模型中，通常有两种不同的正则化项：</p>
+<ul>
+<li><p>加上所有系数（不包括截距）的绝对值之和，即L1范数，此时叫做Lasso回归。</p>
 <blockquote>
-<p>[0，1，1，0，0，0，0，0，1，0]</p>
+<p>代价函数<br><img src="https://img-blog.csdnimg.cn/20200803210330925.png" alt=""></p>
 </blockquote>
-<h1 id="为什么要进行独热向量编码"><a href="#为什么要进行独热向量编码" class="headerlink" title="为什么要进行独热向量编码"></a>为什么要进行独热向量编码</h1><p>在回归，分类，聚类等机器学习算法中，特征之间距离的计算或相似度的计算是非常重要的。而常用的距离或相似度的计算都是在欧式空间的相似度计算，计算余弦相似性，基于的就是欧式空间。<br>使用独热编码（One-Hot Encoding），将离散特征的取值扩展到了欧式空间，离散特征的某个取值就对应欧式空间的某个点。将离散型特征使用独热编码（One-Hot Encoding），会让特征之间的距离计算更加合理。<br>比如，上面的工作特征，该离散型特征，共有五个取值，不使用独热编码（One-Hot Encoding），其表示分别是：</p>
+</li>
+<li><p>加上所有系数（不包括截距）的平方和，即L2发布三个月，此时叫做岭回归（Ridge Regression）。</p>
 <blockquote>
-<p>演员 = (0)<br>厨师 = (1)<br>公务员 = (2)<br>工程师 = (3)<br>律师 = (4)</p>
+<p>代价函数<br><img src="https://img-blog.csdnimg.cn/20200803210341812.png" alt=""></p>
 </blockquote>
-<p>两个工作之间的距离是：</p>
-<blockquote>
-<p>d(演员，厨师) = 1<br>d(厨师，公务员) = 1<br>d(公务员，工程师) = 1<br>d(工程师，律师) = 1<br>d(演员，公务员） = 2<br>d(演员，工程师） = 3</p>
+<h3 id="拆分训练集与测试集"><a href="#拆分训练集与测试集" class="headerlink" title="拆分训练集与测试集"></a>拆分训练集与测试集</h3></li>
+</ul>
+<pre><code class="python">from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(X_dummy, Y, test_size=0.2, random_state=1, shuffle=True)
+print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210434117.png" alt=""></p>
+<pre><code class="python">from sklearn.linear_model import RidgeCV
+
+#alphas表示正则化强度，类似之前代价函数中的λ，cv=5，表示五折交叉验证
+ridge = RidgeCV(alphas=[0.2,0.5,0.8],cv=5)
+ridge.fit(x_train,y_train)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210457992.png" alt=""></p>
+<pre><code class="python">ridge.score(x_test,y_test)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210512872.png" alt=""></p>
+<pre><code class="python">#绘制气温图和散点图，用黑色点表示
+df[&#39;Temp&#39;].plot(style=&#39;k.&#39;,figsize=(20,13))
+
+df.loc[:,&#39;岭回归&#39;] = ridge.predict(X_dummy)
+plt.plot(df[&#39;岭回归&#39;],&#39;g.&#39;)
+
+#设置图例文字大小和图示大小
+plt.legend(fontsize = 15,markerscale=3)
+#设置坐标文字大小
+plt.tick_params(labelsize=25)
+#生成刻度线网格
+plt.grid()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210541479.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<h2 id="决策树与随即森林"><a href="#决策树与随即森林" class="headerlink" title="决策树与随即森林"></a>决策树与随即森林</h2><blockquote>
+<p>决策树与随机森林的训练数据不需要进行独热向量编码，所以可以直接使用X_before_dummy</p>
 </blockquote>
-<p>显然这样的表示，计算出来的特征的距离是不合理。那如果使用独热编码（One-Hot Encoding），则得到d(演员，厨师) = 1与d(演员，公务员）都是1。那么，两个工作之间的距离就都是sqrt(2)。即每两个工作之间的距离是一样的，显得更合理。</p>
-<h1 id="什么情况下不需要独热向量编码"><a href="#什么情况下不需要独热向量编码" class="headerlink" title="什么情况下不需要独热向量编码"></a>什么情况下不需要独热向量编码</h1><p>1、如果特征是离散的，并且不用独热编码就可以很合理的计算出距离，就没必要进行独热编码。（比如，离散特征共有1000个取值，分成两组是400和600,两个小组之间的距离有合适的定义，组内距离也有合适的定义，就没必要独热编码）<br>2、有些并不是基于向量空间度量的算法，数值只是个类别符号，没有偏序关系，就不用进行独热编码。<br>3、如果原本的标签编码是有序的，就不必独热编码了，因为会丢失顺序信息。</p>
+<pre><code class="python">#划分训练集与测试集
+from sklearn.model_selection import train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(X_before_dummy, Y, test_size=0.2, random_state=1, shuffle=True)
+
+#从python机器学习与数据挖掘工具库sklearn中导入随机森林回归器
+from sklearn.ensemble import RandomForestRegressor
+
+#导入网格搜索交叉验证，网格搜索可以让模型参数按我们给定的列表遍历，找到效果最好的模型
+#交叉验证可以充分评估回归模型的准确性
+from sklearn.model_selection import GridSearchCV
+
+#构造参数字典，让这三个参数按列表中的顺序排列组合遍历一遍
+param_grid = {
+    &#39;n_estimators&#39;:[5,10,20,50,100,200], # 决策树的个数
+    &#39;max_depth&#39;:[3,5,7], # 最大树深，树太深会造成过拟合
+    &#39;max_features&#39;:[0.6,0.7,0.8,1] # 决策划分时考虑的最大特征数
+}
+
+#实例化随机森林回归器
+rf = RandomForestRegressor()
+
+#以随机森林回归器为基础构造网格搜索回归器
+grid = GridSearchCV(rf,param_grid=param_grid,cv=3)
+
+#在训练集上训练
+grid.fit(x_train,y_train)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210615173.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<h3 id="选择最优参数对应的模型"><a href="#选择最优参数对应的模型" class="headerlink" title="选择最优参数对应的模型"></a>选择最优参数对应的模型</h3><pre><code class="python">#查看效果最好的参数
+grid.best_params_</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210640590.png" alt=""></p>
+<pre><code class="python">#指定模型为效果最好参数对应的模型
+rf_reg = grid.best_estimator_
+rf_reg</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210720223.png" alt=""></p>
+<h3 id="特征重要度分析"><a href="#特征重要度分析" class="headerlink" title="特征重要度分析"></a>特征重要度分析</h3><pre><code class="python">rf_reg.feature_importances_</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210749207.png" alt=""></p>
+<pre><code class="python">import numpy as np
+print(&quot;特征排序:&quot;)
+features_names=[&#39;year&#39;, &#39;month&#39;, &#39;dow&#39;, &#39;dom&#39;, &#39;weekend&#39;, &#39;weekend_sat&#39;, &#39;weekend_sun&#39;,
+       &#39;half_month&#39;, &#39;three_part_month&#39;, &#39;four_week_month&#39;, &#39;festival&#39;]
+feature_importance = rf_reg.feature_importances_
+indices = np.argsort(feature_importance)[::-1]
+
+for index in indices:
+    print(&quot;features %s (%f)&quot; %(features_names[index], feature_importance[index]))</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210802814.png" alt=""></p>
+<pre><code class="python">plt.figure(figsize=(16,8))
+plt.title(&quot;随机森林模型不同特征的重要度&quot;)
+plt.bar(range(len(feature_importance)), feature_importance[indices], color=&#39;b&#39;)
+plt.xticks(range(len(feature_importance)), np.array(features_names)[indices], color=&#39;b&#39;)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803210817502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<h3 id="可视化回归拟合效果"><a href="#可视化回归拟合效果" class="headerlink" title="可视化回归拟合效果"></a>可视化回归拟合效果</h3><pre><code class="python"># 绘制气温散点图
+df[&#39;Temp&#39;].plot(style=&#39;k.&#39;, figsize=(20,15))
+# 绘制随机森林模型拟合的气温
+df.loc[:,&#39;随机森林&#39;] = rf_reg.predict(X_before_dummy)
+plt.plot(df[&#39;随机森林&#39;],&#39;r.&#39;)
+# 绘制岭回归模型拟合的气温
+plt.plot(df[&#39;岭回归&#39;],&#39;g.&#39;)
+
+# 设置图例文字大小和图示大小
+plt.legend(fontsize=15,markerscale=3)
+# 设置坐标文字大小
+plt.tick_params(labelsize=25)
+# 生成刻度线网格
+plt.grid()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2020080321090689.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<h2 id="多层神经网络"><a href="#多层神经网络" class="headerlink" title="多层神经网络"></a>多层神经网络</h2><blockquote>
+<p>神经网络对输入特征的幅度很敏感，首先需要将输入特征归一化。</p>
+</blockquote>
+<pre><code class="python">from sklearn import  preprocessing
+feature = preprocessing.scale(X_before_dummy)
+
+# 拆分训练集和验证集
+from sklearn.model_selection import train_test_split
+
+X_train, X_val, Y_train, Y_val = train_test_split(feature, Y, test_size=0.2, random_state=1, shuffle=True)</code></pre>
+<pre><code class="python"># 使用keras模型快速搭建全连接神经网络
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout
+from keras.optimizers import SGD
+
+model = Sequential()
+# 第一层，32个神经元，激活函数为relu，接受11个特征作为输入
+model.add(Dense(32, activation=&#39;relu&#39;, input_shape=(X_train.shape[1],)))
+# model.add(Dropout(0.2))
+
+# 第二层，64个神经元，激活函数为relu
+model.add(Dense(64, activation=&#39;relu&#39;))
+# model.add(Dropout(0.2))
+
+# 回归模型的神经网络的最后一层不需要有激活函数，直接用一个神经元线性输出结果即可
+model.add(Dense(1))
+
+# 将模型封装好，使用均方误差mse作为损失函数，使用学习率为0.001的随机梯度下降算法反向传播训练，同时用平均绝对误差mae监控模型训练效果
+model.compile(loss=&#39;mse&#39;, optimizer=SGD(lr=0.001), metrics=[&#39;mae&#39;])
+
+# 查看模型结构，第一层的384即为（11个输入特征 * 第一层32个神经元 + 32个神经元每个都有偏置项）
+model.summary()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803211015916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python"># 训练神经网络，每一批128个数据，训练50轮（即过50遍完整的训练集），每一轮结束后用验证集评估模型效果
+network_history = model.fit(X_train, Y_train, batch_size=128, epochs=50, verbose=1, validation_data=(X_val, Y_val))</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803211034102.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
+<pre><code class="python">import matplotlib.pyplot as plt
+%matplotlib inline
+
+def plot_history(network_history):
+    plt.figure()
+    plt.xlabel(&#39;Epochs&#39;)
+    plt.ylabel(&#39;Loss&#39;)
+    plt.plot(network_history.history[&#39;loss&#39;])
+    plt.plot(network_history.history[&#39;val_loss&#39;])
+    plt.legend([&#39;Training&#39;, &#39;Validation&#39;])
+    plt.show()
+
+plot_history(network_history)</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803211047608.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="、"></p>
+<pre><code class="python"># 绘制气温散点图
+df[&#39;Temp&#39;].plot(style=&#39;k.&#39;, figsize=(30,25))
+
+# 绘制随机森林模型的回归拟合散点图
+plt.plot(df[&#39;随机森林&#39;],&#39;r.&#39;)
+
+# 绘制岭回归模型的回归拟合散点图
+plt.plot(df[&#39;岭回归&#39;],&#39;g.&#39;)
+
+# 绘制多层感知机神经网络模型的回归拟合散点图
+df.loc[:,&#39;多层神经元&#39;] = model.predict(preprocessing.scale(X_before_dummy))
+plt.plot(df[&#39;多层神经元&#39;],&#39;b.&#39;)
+
+# 设置图例文字大小和图示大小
+plt.legend(fontsize=20,markerscale=5)
+# 设置坐标文字大小
+plt.tick_params(labelsize=25)
+# 生成刻度线网格
+plt.grid()</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200803211111859.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt=""></p>
 
             </div>
             <hr/>
@@ -522,7 +898,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2020/08/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E2%80%94%E7%8B%AC%E7%83%AD%E5%90%91%E9%87%8F%E7%BC%96%E7%A0%81/">http://yoursite.com/2020/08/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E2%80%94%E7%8B%AC%E7%83%AD%E5%90%91%E9%87%8F%E7%BC%96%E7%A0%81/</a>
+                    <a href="http://yoursite.com/2020/08/03/%E5%A2%A8%E5%B0%94%E6%9C%AC%E5%8D%81%E5%B9%B4%E6%9C%80%E4%BD%8E%E6%B0%94%E6%B8%A9%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%EF%BC%88%E4%BA%8C%EF%BC%89/">http://yoursite.com/2020/08/03/%E5%A2%A8%E5%B0%94%E6%9C%AC%E5%8D%81%E5%B9%B4%E6%9C%80%E4%BD%8E%E6%B0%94%E6%B8%A9%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%EF%BC%88%E4%BA%8C%EF%BC%89/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -560,8 +936,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%8B%AC%E7%83%AD%E5%90%91%E9%87%8F/">
-                                    <span class="chip bg-color">独热向量</span>
+                                <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">
+                                    <span class="chip bg-color">数据挖掘</span>
                                 </a>
                             
                         </div>
@@ -729,9 +1105,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/08/03/%E5%A2%A8%E5%B0%94%E6%9C%AC%E5%8D%81%E5%B9%B4%E6%9C%80%E4%BD%8E%E6%B0%94%E6%B8%A9%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%EF%BC%88%E4%BA%8C%EF%BC%89/">
                     <div class="card-image">
@@ -759,9 +1136,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-03
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-03
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -774,6 +1151,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -792,33 +1170,33 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/01/%E5%A2%A8%E5%B0%94%E6%9C%AC%E5%8D%81%E5%B9%B4%E6%9C%80%E4%BD%8E%E6%B0%94%E6%B8%A9%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">
+                <a href="/2020/08/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E2%80%94%E2%80%94%E2%80%94%E7%8B%AC%E7%83%AD%E5%90%91%E9%87%8F%E7%BC%96%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="墨尔本十年最低气温时间序列数据挖掘（一）">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="机器学习特征处理———独热向量编码">
                         
-                        <span class="card-title">墨尔本十年最低气温时间序列数据挖掘（一）</span>
+                        <span class="card-title">机器学习特征处理———独热向量编码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            从股票价格波动，到司机气温变化，从大桥沉降预测，到城市用电预警，时间序列数据广泛存在于量化交易、回归预测等机器学习应用，是最常见的数据类型。接下来使用Python对一个经典的时间序列数据集：墨尔本十年气温变化数据集，进行以下工作：
+                            在机器学习算法中，常会遇到分类特征是离散的，无序的。例如：性别有男、女，城市有北京，上海，深圳等。
 
-探索性
+性别特征：[“男”，”女”] =&gt; 0，1地区特征：[“北京”，”上海，”深圳”] =&gt; 0，1，2工作特征：[“演员”，”厨
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-02
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="post-category">
-                                    数据分析
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" class="post-category">
+                                    数据挖掘
                                 </a>
                             
                             
@@ -828,8 +1206,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/">
-                        <span class="chip bg-color">数据挖掘</span>
+                    <a href="/tags/%E7%8B%AC%E7%83%AD%E5%90%91%E9%87%8F/">
+                        <span class="chip bg-color">独热向量</span>
                     </a>
                     
                 </div>
