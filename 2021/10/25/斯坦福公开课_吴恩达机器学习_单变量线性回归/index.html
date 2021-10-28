@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="我的第一篇博客, MPLebron">
+    <meta name="keywords" content="斯坦福公开课_吴恩达机器学习_线性回归, MPLebron">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>我的第一篇博客 | MPLebron</title>
+    <title>斯坦福公开课_吴恩达机器学习_线性回归 | MPLebron</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -286,12 +286,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://pic1.zhimg.com/v2-9f67847ae92fe2aacc9630c8e2bb0ee5_1440w.jpg?source=172ae18b')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">我的第一篇博客</h1>
+                    <h1 class="description center-align post-title">斯坦福公开课_吴恩达机器学习_线性回归</h1>
                 </div>
             </div>
         </div>
@@ -406,9 +406,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/">
+                                <span class="chip bg-color">吴恩达</span>
+                            </a>
+                        
+                            <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
+                                <span class="chip bg-color">线性回归</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/">
+                                <span class="chip bg-color">梯度下降</span>
+                            </a>
+                        
+                            <a href="/tags/%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0/">
+                                <span class="chip bg-color">代价函数</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -416,8 +432,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%94%9F%E6%B4%BB/" class="post-category">
-                                生活
+                            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                机器学习
                             </a>
                         
                     </div>
@@ -429,7 +445,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-07-28
+                    2021-10-25
                 </div>
                 
 
@@ -438,14 +454,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    34
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    7 分
                 </div>
                 
 
@@ -460,7 +476,52 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>终于完成了自己的博客，以后会在这里记录自己的学习和日常，保持专注，保持进步！</p>
+                <p>接下来所要学习的第一个算法是线性回归算法，通过这个算法，可以了解监督学习的完整流程。</p>
+<p>首先声明回归问题中常用的标记解释如下：</p>
+<blockquote>
+<p>$m$ 表示训练集中实例的数量</p>
+<p>$x$ 表示特征/输入变量</p>
+<p>$y$ 表示目标变量/输出变量</p>
+<p>$(x,y)$ 代表训练集中的实例</p>
+<p>$\left(x^{(i)}, y^{(i)}\right)$ 代表第$i$个实例</p>
+<p>$h$ 代表学习算法的解决方案或者称为假设$(hypothesis)$</p>
+</blockquote>
+<p>$h$是一个从$x$到$y$的函数映射。当$h_{\theta}(x)=\theta_{0}+\theta_{1} x$时，因为只含有一个特征/输入变量，因此该问题被称为单变量线性回归问题。</p>
+<h2 id="代价函数"><a href="#代价函数" class="headerlink" title="代价函数"></a>代价函数</h2><p>假设函数中我们设定的参数决定了我们得到的直线相对于我们的训练集的准确程度，模型所预测的值与训练集中的实际值之间的差距，被称为建模误差(modeling error).</p>
+<p>我们的目标是选择出能够最小化建模误差平方和的模型参数，即使得代价函数<strong>$J\left(\theta_{0}, \theta_{1}\right)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2}$</strong>最小。该代价函数也被称作平方误差函数，有时也被称为平方误差代价函数。我们需要的是一种有效的算法，能够自动找出使代价函数取最小值的参数。</p>
+<h2 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h2><p>梯度下降是用来求函数最小值的算法，开始时随机选择一个参数的组合$(θ<em>{0},θ</em>{1},……θ_{n})$，计算代价函数，然后寻找能够让代价函数值下降最多的参数组合，持续迭代知道寻找出局部最小值。因为并没有尝试完所有参数组合，所以不能确定当前局部最小值是否是全局最小值，当我们选择不同的初始参数组合时，会得到不同的局部最小值。</p>
+<p>批量梯度下降(batch gradient descent)算法的公式为:$\theta_{j}:=\theta_{j}-\alpha \frac{\partial}{\partial \theta_{j}} J\left(\theta_{0}, \theta_{1}\right) \quad(\text { for } j=0 \text { and } j=1)$</p>
+<p>其中，$α$是学习率，决定了下一步迈出的步子有多大，在批量梯度下降中，每一次都同时让所有的参数减去学习率乘以代价函数的导数。</p>
+<p>如果$α$太小，会导致下降过程只能像小宝宝一样一点点地挪动，这样就只能走很多步才能到达最低点。如果$α$太大，那么梯度下降法可能会越过最低点，甚至可能无法收敛，离最低点越来越远，乃至发散。</p>
+<p>如果恰好将$\theta_{1}$设置在了局部最低点，此时已经是一个局部最优解，那么$\theta_{1}$不再改变，梯度下降法其实什么也没错，不会改变参数的值。</p>
+<p>随着梯度下降法的运行，移动的幅度会自动变得越来越小，直到最终移动幅度非常小，此时会发现，已经收敛到局部极小值。所以，梯度下降法将会自动采取最小的幅度，这就是梯度下降法的做法，所以实际上没有必要再另外减小$\alpha$。</p>
+<p>以上便是梯度下降算法的基本原理，可以用来最小化任何代价函数，而不仅仅局限于线性回归中的代价函数。</p>
+<p>批量梯度下降算法这个名字就说明了，我们在运算中，每次都需要考虑所有的训练样本，但事实上，也有其他类型的梯度下降算法并不是批量型的，不考虑整个数据集，而是每次都只关注训练集中的一些小的子集。这个方法是正规方程法(normal equations)，再数据量较小的情况下，正规方程法比梯度下降法要更适用一些。</p>
+<h2 id="多变量线性回归"><a href="#多变量线性回归" class="headerlink" title="多变量线性回归"></a>多变量线性回归</h2><h3 id="多维特征"><a href="#多维特征" class="headerlink" title="多维特征"></a>多维特征</h3><p>在对房价预测的模型中，加入更多的特征，将会更成一个含有多个变量的模型。</p>
+<img src="C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20211028093353683.png" alt="image-20211028093353683" style="zoom:50%;" />
+
+<p>支持多变量的假设函数$h$表示为$h_{\theta}(x)=\theta_{0}+\theta_{1} x_{1}+\theta_{2} x_{2}+\ldots+\theta_{n} x_{n}$。</p>
+<p>这个函数中有$n+1$个参数和$n$个变量，为了简化公式，使$x_{0}=0$，则公式转化为$h_{\theta}(x)=\theta_{0} x_{0}+\theta_{1} x_{1}+\theta_{2} x_{2}+\ldots+\theta_{n} x_{n}$.此时的参数维数与训练实例维数都是$n+1$维，因此公式可以转化为$h_{θ}(x)=θ^TX$.</p>
+<p>多变量线性回归中，同样需要构造代价函数，$J\left(\theta_{0}, \theta_{1} \ldots \theta_{n}\right)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2}$</p>
+<p>建模的目标仍然是找出使得代价函数最小的一系列参数。</p>
+<h2 id="特征缩放"><a href="#特征缩放" class="headerlink" title="特征缩放"></a>特征缩放</h2><p>在面对多维特征的时候，要帮助这些特征，是它们具有相近的尺度，从而使得梯度下降算法更快的收敛。具体做法是让特征缩放到-1到1之间。</p>
+<img src="C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20211028094741007.png" alt="image-20211028094741007" style="zoom: 67%;" />
+
+<h2 id="学习率"><a href="#学习率" class="headerlink" title="学习率"></a>学习率</h2><p>梯度下降算法收敛所需要的迭代次数根据数据模型的不同而不同，我们可以绘制迭代次数和代价函数的图表，来观测算法在何时趋于收敛。</p>
+<img src="C:\Users\HP\AppData\Roaming\Typora\typora-user-images\image-20211028153139928.png" alt="image-20211028153139928" style="zoom:50%;" />
+
+<p>梯度下降算法的每次迭代受到学习率的影响，如果学习率𝑎过小，则达到收敛所需的迭代次数会非常高；如果学习率𝑎过大，每次迭代可能不会减小代价函数，可能会越过局部最小值导致无法收敛。</p>
+<h2 id="特征和多项式回归"><a href="#特征和多项式回归" class="headerlink" title="特征和多项式回归"></a>特征和多项式回归</h2><p>在房价预测问题中：</p>
+<p>$h_{θ}(x)=θ<em>{0}+θ</em>{1}<em>frontage+θ_{2}</em>depth$</p>
+<p>另$x=frontage<em>depth$，则$h_{θ}(x)=θ<em>{0}+θ</em>{1}</em>x$</p>
+<p>有时候线性回归并不适用于所有数据，此时需要曲线来适应我们的数据，比如一个二次方程$h_{θ}(x)=θ<em>{0}+θ</em>{1}<em>x+θ_{2}</em>x^2$，或者三次方模型$h_{θ}(x)=θ<em>{0}+θ</em>{1}<em>x+θ_{2}</em>x^2+θ_{3}*x^3$.</p>
+<p>值得注意的是，在使用多项式回归模型时，在运行梯度下降算法之前，非常有必要进行特征缩放。</p>
+<h2 id="正规方程"><a href="#正规方程" class="headerlink" title="正规方程"></a>正规方程</h2><p>对于某些线性回归问题，正规方程方法是更好的解决方案。</p>
+<p>正规方程是通过求解下面的方程来找出使得代价函数最小的参数的： $\frac{\partial}{\partial \theta_{j}} J\left(\theta_{j}\right)=0$.</p>
+<p>假设我们的训练集特征矩阵为 $X$（包含了 $x_{0}$ = 1）并且我们的训练集结果为向量 $y$，则利用正规方程解出向量 $𝜃 = (𝑋^T𝑋)^{-1}𝑋^T𝑦$。</p>
+<p>然而，对于那些不可逆的矩阵（往往是由于特征之间相互不独立，或者特征数量大于训练集的数量），正规方程的方法是不能用的。</p>
+<p>只要特征变量的数目并不大，标准方程是一个很好的计算参数𝜃的替代方法。<br>具体地说，只要特征变量数量小于一万，我通常使用标准方程法，而不使用梯度下降法。当讲到分类算法，像逻辑回归算法，并不能使用标准方程法。对于那些更复杂的学习算法，将不得不仍然使用梯度下降法。因此，梯度下降法是一个非常有用的算法，可以用在有大量特征变量的线性回归问题。</p>
+<p><img src="C:%5CUsers%5CHP%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20211028154454772.png" alt="image-20211028154454772"></p>
 
             </div>
             <hr/>
@@ -486,7 +547,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://yoursite.com/2020/07/28/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">http://yoursite.com/2020/07/28/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</a>
+                    <a href="http://yoursite.com/2021/10/25/%E6%96%AF%E5%9D%A6%E7%A6%8F%E5%85%AC%E5%BC%80%E8%AF%BE_%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">http://yoursite.com/2021/10/25/%E6%96%AF%E5%9D%A6%E7%A6%8F%E5%85%AC%E5%BC%80%E8%AF%BE_%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -523,7 +584,23 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/">
+                                    <span class="chip bg-color">吴恩达</span>
+                                </a>
+                            
+                                <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">
+                                    <span class="chip bg-color">线性回归</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/">
+                                    <span class="chip bg-color">梯度下降</span>
+                                </a>
+                            
+                                <a href="/tags/%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0/">
+                                    <span class="chip bg-color">代价函数</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -693,33 +770,31 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/07/28/Markdown%E8%AF%AD%E8%A8%80/">
+                <a href="/2021/10/25/%E6%96%AF%E5%9D%A6%E7%A6%8F%E5%85%AC%E5%BC%80%E8%AF%BE_%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0_%E5%BC%95%E8%A8%80/">
                     <div class="card-image">
                         
+                        <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fstatic-image.xfz.cn%2F1498352504_267.JPEG&refer=http%3A%2F%2Fstatic-image.xfz.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637719904&t=188421073e8ab0944501f428fc5f59ac" class="responsive-img" alt="斯坦福公开课_吴恩达机器学习_引言">
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Markdown语言">
-                        
-                        <span class="card-title">Markdown语言</span>
+                        <span class="card-title">斯坦福公开课_吴恩达机器学习_引言</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            为什么要使用Markdown语言保存自己的文稿？Markdown是什么？Markdown是一种标记语言，通常为程序员群体所使用。大部分人写作都是使用Word或者Pages写作，但是doc和Pages格式都存在如下问题：
-
-不一定所有人都可以
+                            机器学习是目前信息技术中最激动人心的方向之一。我们每天都会在不知不觉中使用到机器学习的算法，比如我们电子邮件中的垃圾邮件筛选器，可以帮助我们过滤大量的垃圾邮件，这就是一种机器学习算法。
+为什么机器学习会如此受欢迎，是因为机器学习应用广泛，远
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-28
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-25
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%89%8D%E7%AB%AF/" class="post-category">
-                                    前端
+                            <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category">
+                                    机器学习
                                 </a>
                             
                             
@@ -729,8 +804,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/%E5%90%B4%E6%81%A9%E8%BE%BE/">
+                        <span class="chip bg-color">吴恩达</span>
                     </a>
                     
                 </div>
@@ -744,32 +819,45 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/07/28/hello-world/">
+                <a href="/2020/08/05/%E9%9D%A2%E5%90%91ArcGIS%E7%9A%84Python%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E2%80%94%E2%80%94Python%E4%B8%8E%E5%9C%B0%E7%90%86%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="面向ArcGIS的Python脚本编程——Python与地理处理相关概念">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">面向ArcGIS的Python脚本编程——Python与地理处理相关概念</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            Python简介
+Python作为一门程序语言，也常被称为脚本语言。一般而言，脚本语言用于控制其他应用程序以实现任务自动化；而程序语言则是用于开发结构复杂、功能完备的应用程序。脚本语言是一种“粘合剂”可以将不同的组件组合到一起，从而实现新的
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-28
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-05
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            马培龙
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%B8%93%E4%B8%9A%E7%9F%A5%E8%AF%86/" class="post-category">
+                                    专业知识
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/arcpy/">
+                        <span class="chip bg-color">arcpy</span>
+                    </a>
+                    
                 </div>
                 
             </div>
