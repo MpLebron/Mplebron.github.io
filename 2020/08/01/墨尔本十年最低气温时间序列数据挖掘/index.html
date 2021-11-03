@@ -29,7 +29,11 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -470,8 +474,8 @@
 <li>对时间做特征工程：拓展时间数据纬度，这个代码模板也可以作为时间序列数据的通用预处理模板。</li>
 <li>使用三种机器学习模型建立回归拟合模型：岭回归、随机森林、神经网络，并可视化展示三种模型的回归拟合效果。</li>
 </ul>
-<h1 id="导入墨尔本1980-1990十年气温数据集"><a href="#导入墨尔本1980-1990十年气温数据集" class="headerlink" title="导入墨尔本1980-1990十年气温数据集"></a>导入墨尔本1980-1990十年气温数据集</h1><h2 id="下载数据集"><a href="#下载数据集" class="headerlink" title="下载数据集"></a>下载数据集</h2><p><a href="https://editor.csdn.net/md/%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE%E9%9B%86" target="_blank" rel="noopener">原始数据集</a></p>
-<h2 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h2><pre><code class="python"># 导入Python的数据处理库Pandas，相当于Python里的Excel
+<h1 id="导入墨尔本1980-1990十年气温数据集"><a href="#导入墨尔本1980-1990十年气温数据集" class="headerlink" title="导入墨尔本1980-1990十年气温数据集"></a>导入墨尔本1980-1990十年气温数据集</h1><h2 id="下载数据集"><a href="#下载数据集" class="headerlink" title="下载数据集"></a>下载数据集</h2><p><a target="_blank" rel="noopener" href="https://editor.csdn.net/md/%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE%E9%9B%86">原始数据集</a></p>
+<h2 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h2><pre class=" language-lang-python"><code class="language-lang-python"># 导入Python的数据处理库Pandas，相当于Python里的Excel
 import pandas as pd
 
 #导入Python绘图matplotlib
@@ -481,179 +485,211 @@ import matplotlib.pyplot as plt
 %matplotlib inline
 
 #设置绘图大小
-plt.style.use({&#39;figure.figsize&#39;:(25,20)})
+plt.style.use(&#123;'figure.figsize':(25,20)&#125;)
 
-plt.rcParams[&#39;font.sans-serif&#39;]=[&#39;SimHei&#39;]  # 用来正常显示中文标签  
-plt.rcParams[&#39;axes.unicode_minus&#39;]=False  # 用来正常显示负号
+plt.rcParams['font.sans-serif']=['SimHei']  # 用来正常显示中文标签  
+plt.rcParams['axes.unicode_minus']=False  # 用来正常显示负号
 
 #调用pandas的read_csv函数读取数据集文件
-df = pd.read_csv(&#39;daily-minimum-temperature.csv&#39;)</code></pre>
-<h2 id="探索数据集"><a href="#探索数据集" class="headerlink" title="探索数据集"></a>探索数据集</h2><pre><code class="python"># 查看df这张二维表格
-df</code></pre>
+df = pd.read_csv('daily-minimum-temperature.csv')
+</code></pre>
+<h2 id="探索数据集"><a href="#探索数据集" class="headerlink" title="探索数据集"></a>探索数据集</h2><pre class=" language-lang-python"><code class="language-lang-python"># 查看df这张二维表格
+df
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801110417338.png" alt="在这里插入图片描述"><br>第一列Date为日期，也就是时间序列，我们将第一列的数据类型转换为pandas中的datetime日期类型，并将这一列作为数据的索引，便于后续处理</p>
-<pre><code class="python">df[&#39;Date&#39;] = pd.to_datetime(df[&#39;Date&#39;])
-df = df.set_index(&#39;Date&#39;)</code></pre>
-<pre><code class="python">#查看各列的信息
-df.info()</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">df['Date'] = pd.to_datetime(df['Date'])
+df = df.set_index('Date')
+</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">#查看各列的信息
+df.info()
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801115238169.png" alt="在这里插入图片描述"></p>
-<h2 id="探索性数据分析"><a href="#探索性数据分析" class="headerlink" title="探索性数据分析"></a>探索性数据分析</h2><pre><code class="python">#查看前五行
-df.head()</code></pre>
+<h2 id="探索性数据分析"><a href="#探索性数据分析" class="headerlink" title="探索性数据分析"></a>探索性数据分析</h2><pre class=" language-lang-python"><code class="language-lang-python">#查看前五行
+df.head()
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801115415502.png" alt="在这里插入图片描述"></p>
-<pre><code class="python">df.shape</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">df.shape
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801115449370.png" alt="在这里插入图片描述"><br>共有3650行数据，每一行数据都表示一天，总共表示了1980年1月1日到1990年12月31十年间墨尔本每天的最低气温</p>
-<pre><code class="python">#查看df中割裂数据的统计特征
-df.describe()</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">#查看df中割裂数据的统计特征
+df.describe()
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801122048160.png" alt="在这里插入图片描述"></p>
-<h2 id="绘制折线图"><a href="#绘制折线图" class="headerlink" title="绘制折线图"></a>绘制折线图</h2><pre><code class="python">df[&#39;Temp&#39;].plot(figsize=(30,15))
+<h2 id="绘制折线图"><a href="#绘制折线图" class="headerlink" title="绘制折线图"></a>绘制折线图</h2><pre class=" language-lang-python"><code class="language-lang-python">df['Temp'].plot(figsize=(30,15))
 
 #设置坐标字体大小
 plt.tick_params(labelsize=30)
 #生成刻度线网格
-plt.grid()</code></pre>
+plt.grid()
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801122403517.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>折线图容易产生毛刺，可以换成散点图。</p>
-<pre><code class="python">df[&#39;Temp&#39;].plot(style=&#39;k.&#39;,figsize=(30,15))
+<pre class=" language-lang-python"><code class="language-lang-python">df['Temp'].plot(style='k.',figsize=(30,15))
 #设置坐标字体大小
 plt.tick_params(labelsize=30)
 #生成刻度线网格
-plt.grid()</code></pre>
+plt.grid()
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801122704243.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h2><p>hist表示在一定范围内的数的个数的统计，与bar不相同，bar表示的是每个数的数据，hist表示在一定范围内的数的个数。binas参数表示横轴多少等分。</p>
-<pre><code class="python"># 设置绘图大小
-plt.style.use({&#39;figure.figsize&#39;:(5,5)})
-df[&#39;Temp&#39;].plot(kind=&#39;hist&#39;,bins=20)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置绘图大小
+plt.style.use(&#123;'figure.figsize':(5,5)&#125;)
+df['Temp'].plot(kind='hist',bins=20)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801125239606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">df[&#39;Temp&#39;].hist(bins=50)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">df['Temp'].hist(bins=50)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801125400378.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="堆积面积图"><a href="#堆积面积图" class="headerlink" title="堆积面积图"></a>堆积面积图</h2><pre><code class="python">#seaborn是基于matplotlib的Python可视化库，将matplotlib库进行了进一步封装，使用更加简单，而且绘制出的图标更加高大上
+<h2 id="堆积面积图"><a href="#堆积面积图" class="headerlink" title="堆积面积图"></a>堆积面积图</h2><pre class=" language-lang-python"><code class="language-lang-python">#seaborn是基于matplotlib的Python可视化库，将matplotlib库进行了进一步封装，使用更加简单，而且绘制出的图标更加高大上
 #导入Python可视化库seaborn
 import seaborn as sns
 
-df.plot.area(stacked=False)</code></pre>
+df.plot.area(stacked=False)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801125823239.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h2 id="核密度估计图（KDE）"><a href="#核密度估计图（KDE）" class="headerlink" title="核密度估计图（KDE）"></a>核密度估计图（KDE）</h2><pre><code class="python">df[&#39;Temp&#39;].plot(kind=&#39;kde&#39;)</code></pre>
+<h2 id="核密度估计图（KDE）"><a href="#核密度估计图（KDE）" class="headerlink" title="核密度估计图（KDE）"></a>核密度估计图（KDE）</h2><pre class=" language-lang-python"><code class="language-lang-python">df['Temp'].plot(kind='kde')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801130454712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="热力图"><a href="#热力图" class="headerlink" title="热力图"></a>热力图</h2><p>将1982年每一个月的平均气温用热力图展示出来。<br>resample(‘M’)是按月份重采样</p>
-<pre><code class="python">plt.style.use({&#39;figure.figsize&#39;:(20,8)})
-sns.heatmap(df[&#39;1982&#39;].resample(&#39;M&#39;).mean().T)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">plt.style.use(&#123;'figure.figsize':(20,8)&#125;)
+sns.heatmap(df['1982'].resample('M').mean().T)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801131101927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <blockquote>
 <p>为什么6月和7月气温最低呢？因为墨尔本在澳大利亚，属于南半球，6月和7月是冬天</p>
-</blockquote>
 <h2 id="筛选指定日期的数据"><a href="#筛选指定日期的数据" class="headerlink" title="筛选指定日期的数据"></a>筛选指定日期的数据</h2><p>我们刚刚将日期列转换为了pandas中的datetime类型，我们可以直接通过年份和日期索引选择指定时间的数据。</p>
-<pre><code class="python">df[&#39;1984&#39;]</code></pre>
+</blockquote>
+<pre class=" language-lang-python"><code class="language-lang-python">df['1984']
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142655341.png" alt="在这里插入图片描述"></p>
-<pre><code class="python">#将每年和每天的温度筛选出来
-groups = df.groupby(pd.Grouper(freq=&#39;1Y&#39;))[&#39;Temp&#39;]
+<pre class=" language-lang-python"><code class="language-lang-python">#将每年和每天的温度筛选出来
+groups = df.groupby(pd.Grouper(freq='1Y'))['Temp']
 
 from pandas import DataFrame
 years = DataFrame()
 for name,group in groups:
     years[name.year] = group.values
-years</code></pre>
+years
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142720388.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python"># 设置绘图大小
-plt.style.use({&#39;figure.figsize&#39;:(30,15)})
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置绘图大小
+plt.style.use(&#123;'figure.figsize':(30,15)&#125;)
 
 years.plot()
 #设置图例文字大小和图示大小
 plt.legend(fontsize=15,markerscale=15)
 #设置坐标文字大小
-plt.tick_params(labelsize=15)</code></pre>
+plt.tick_params(labelsize=15)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142740994.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <blockquote>
 <p>绘制每年的变化折线图、箱型图、热力图、小提琴图</p>
 </blockquote>
-<pre><code class="python">绘制每年的变化折线图、箱型图、热力图、小提琴图</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">绘制每年的变化折线图、箱型图、热力图、小提琴图
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142832691.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">years.boxplot(figsize=(20,10))</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">years.boxplot(figsize=(20,10))
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142848637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">#设置绘图大小
-plt.style.use({&#39;figure.figsize&#39;:(30,10)})
-sns.heatmap(years.T)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">#设置绘图大小
+plt.style.use(&#123;'figure.figsize':(30,10)&#125;)
+sns.heatmap(years.T)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142902373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python"># 矩阵可视化
-plt.matshow(years.T,interpolation=None,aspect=&#39;auto&#39;)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python"># 矩阵可视化
+plt.matshow(years.T,interpolation=None,aspect='auto')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801142914578.png" alt="在这里插入图片描述"></p>
-<pre><code class="python">#设置绘图大小
-plt.style.use({&#39;figure.figsize&#39;:(30,22)})
-years.hist(bins=15)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">#设置绘图大小
+plt.style.use(&#123;'figure.figsize':(30,22)&#125;)
+years.hist(bins=15)
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801143003272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">#选取1985年12个月每天的气温数据
-groups_month = df[&#39;1985&#39;].groupby(pd.Grouper(freq=&#39;1M&#39;))[&#39;Temp&#39;]
+<pre class=" language-lang-python"><code class="language-lang-python">#选取1985年12个月每天的气温数据
+groups_month = df['1985'].groupby(pd.Grouper(freq='1M'))['Temp']
 months = pd.concat([DataFrame(x[1].values) for x in groups_month], axis=1)
 months = DataFrame(months)
 months.columns = range(1,13)
 months.boxplot(figsize=(20,15))
-plt.title(&#39;墨尔本1982年每个月最低温度分布箱型图&#39;)</code></pre>
+plt.title('墨尔本1982年每个月最低温度分布箱型图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801143032869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">months</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">months
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801143108285.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python"># 设置图像大小
-plt.style.use({&#39;figure.figsize&#39;:(15,10)})
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置图像大小
+plt.style.use(&#123;'figure.figsize':(15,10)&#125;)
 
 sns.violinplot(data=months)
-plt.title(&#39;墨尔本1982年每个月最低气温分布小提琴图&#39;)</code></pre>
+plt.title('墨尔本1982年每个月最低气温分布小提琴图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/2020080114314260.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python"># linewidth参数可以控制线宽
+<pre class=" language-lang-python"><code class="language-lang-python"># linewidth参数可以控制线宽
 sns.violinplot(data=months,linewidth=3)
-plt.title(&#39;墨尔本1982年每个月最低气温分布小提琴图&#39;)</code></pre>
+plt.title('墨尔本1982年每个月最低气温分布小提琴图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801143159794.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python"># 设置图像大小
-plt.style.use({&#39;figure.figsize&#39;:(5,8)})
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置图像大小
+plt.style.use(&#123;'figure.figsize':(5,8)&#125;)
 sns.heatmap(months)
-plt.title(&#39;墨尔本1982年每天最低气温分布热力图&#39;)</code></pre>
+plt.title('墨尔本1982年每天最低气温分布热力图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801143213669.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">plt.matshow(months, interpolation=None, aspect=&#39;auto&#39;,cmap=&#39;rainbow&#39;)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">plt.matshow(months, interpolation=None, aspect='auto',cmap='rainbow')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801143235746.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="滞后散点图"><a href="#滞后散点图" class="headerlink" title="滞后散点图"></a>滞后散点图</h2><blockquote>
 <p>时间序列分析假定一个观测值与前面的观测值之间存在一定的关系。 相对于某观察值之前的观测值被称为滞后值，在一个时间步长前的观测值称为滞后一期，在两个时间步长前的观测值为滞后二期，依此类推。 比如，对于1982年8月15日的气温数据，8月14日的气温为滞后一期，8月13日的气温为滞后二期。 每个观察值之间和其滞后值之间的关系可以用滞后散点图表示。</p>
 </blockquote>
-<pre><code class="python">#设置图片大小
-plt.style.use({&#39;figure.figsize&#39;:(10,10)})
+<pre class=" language-lang-python"><code class="language-lang-python">#设置图片大小
+plt.style.use(&#123;'figure.figsize':(10,10)&#125;)
 
 from pandas.plotting import lag_plot
-lag_plot(df[&#39;Temp&#39;])
-plt.title(&#39;墨尔本1980-1990年最低气温滞后一期散点图&#39;)</code></pre>
+lag_plot(df['Temp'])
+plt.title('墨尔本1980-1990年最低气温滞后一期散点图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801150404922.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <blockquote>
 <p>散点图聚在左下角到右上角，表示与滞后值正相关。 散点图聚在左上角到右下角，表示与滞后值负相关。 离对角线越紧密，表明相关关系越强。 分散的球状散点图表明相关关系微弱。</p>
 </blockquote>
-<pre><code class="python">lag_list = [1,2,3,5,10,20,50,100,150,180]
-plt.style.use({&#39;figure.figsize&#39;:(15,35)})
+<pre class=" language-lang-python"><code class="language-lang-python">lag_list = [1,2,3,5,10,20,50,100,150,180]
+plt.style.use(&#123;'figure.figsize':(15,35)&#125;)
 for i in range(len(lag_list)):
     ax = plt.subplot(5,2,i+1)
-    ax.set_title(&#39;t vs t+&#39; + str(lag_list[i]))
-    lag_plot(df[&#39;Temp&#39;],lag=lag_list[i])
-    plt.title(&#39;墨尔本1980-1990年最低气温滞后{}期散点图&#39;.format(lag_list[i]))
+    ax.set_title('t vs t+' + str(lag_list[i]))
+    lag_plot(df['Temp'],lag=lag_list[i])
+    plt.title('墨尔本1980-1990年最低气温滞后&#123;&#125;期散点图'.format(lag_list[i]))
 </code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801150444918.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <h2 id="自相关图"><a href="#自相关图" class="headerlink" title="自相关图"></a>自相关图</h2><blockquote>
 <p>高中数学就讲过的，两个随机变量之间的pearson相关性系数<br><img src="https://img-blog.csdnimg.cn/20200801161711600.png" alt="在这里插入图片描述"><br>但是对于我们的时间序列来说， 需要比较的两个随机变量分别是： 一段时间的温度值，以及这段时间之前某段时间的温度值序列。<br>相关性系数的公式稍微有一些改变。<br><img src="https://img-blog.csdnimg.cn/2020080116172851.png" alt="在这里插入图片描述"><br>比如我们有一个星期的温度数据，即T=7 当我们选择滞后值为3，也就是比较每段序列和它之前三天的序列， 带入公式，分子的第一个括号是周四到周日的温度与一周平均温度的差值 分子的第二个括号是周一到周三的温度与一周平均温度的差值 分母的括号为一周每天的温度与一周平均温度的差值</p>
 </blockquote>
-<pre><code class="python"># 设置图像大小
-plt.style.use({&#39;figure.figsize&#39;:(15,10)})
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置图像大小
+plt.style.use(&#123;'figure.figsize':(15,10)&#125;)
 
 import numpy as np
 from pandas.plotting import autocorrelation_plot
-autocorrelation_plot(df[&#39;Temp&#39;])
-plt.title(&#39;墨尔本1980-1990年最低气温自相关图&#39;)
+autocorrelation_plot(df['Temp'])
+plt.title('墨尔本1980-1990年最低气温自相关图')
 # 设置坐标文字大小
 plt.tick_params(labelsize=10)
 
 # plt.xticks(np.linspace(0, 3650, 7))
-plt.yticks(np.linspace(-1, 1, 20))</code></pre>
+plt.yticks(np.linspace(-1, 1, 20))
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801162431320.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python"># 设置图像大小
-plt.style.use({&#39;figure.figsize&#39;:(10,5)})
+<pre class=" language-lang-python"><code class="language-lang-python"># 设置图像大小
+plt.style.use(&#123;'figure.figsize':(10,5)&#125;)
 
 import numpy as np
 a = np.random.randn(100)
 a = pd.Series(a)
 lag_plot(a)
-plt.title(&#39;随机数列的1期滞后散点图&#39;)</code></pre>
+plt.title('随机数列的1期滞后散点图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801162444497.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<pre><code class="python">autocorrelation_plot(a)
-plt.title(&#39;随机数列的自相关图&#39;)</code></pre>
+<pre class=" language-lang-python"><code class="language-lang-python">autocorrelation_plot(a)
+plt.title('随机数列的自相关图')
+</code></pre>
 <p><img src="https://img-blog.csdnimg.cn/20200801162459672.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzODc0NjAx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 
             </div>
@@ -1186,7 +1222,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">11.6k</span>&nbsp;字
+                class="white-color">8.2k</span>&nbsp;字
             
             
             
